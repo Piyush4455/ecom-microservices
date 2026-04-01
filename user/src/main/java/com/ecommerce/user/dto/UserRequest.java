@@ -1,6 +1,5 @@
 package com.ecommerce.user.dto;
 
-import com.ecommerce.user.dto.AddressDTO;
 import lombok.Data;
 
 @Data

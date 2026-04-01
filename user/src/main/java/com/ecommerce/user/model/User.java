@@ -1,47 +1,43 @@
 package com.ecommerce.user.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Entity(name = "user_table")
+//@Entity(name = "user_table")
+@Document(collection = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
+    private String id;
     private String firstName;
     private String lastName;
-    @Column(nullable = false, unique = true)
+
+    @Indexed(unique = true)
     private String email;
     private String phone;
-    @Column(nullable = false)
-    private UserRole role;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private UserRole role = UserRole.CUSTOMER;
     private Address address;
 
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime creationAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    public void setDefaultRole() {
-        if (this.role == null) {
-            this.role = UserRole.CUSTOMER;
-        }
-    }
+//    @PrePersist
+//    public void setDefaultRole() {
+//        if (this.role == null) {
+//            this.role = UserRole.CUSTOMER;
+//        }
+//    }
 
 }

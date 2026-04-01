@@ -36,3 +36,41 @@ networks:
 volumes:
   postgres:
   pgadmin:
+
+
+#services:
+#  mysql:
+#    container_name: mysql_container
+#    image: mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: piyush
+#      MYSQL_DATABASE: piyush
+#      MYSQL_USER: piyush
+#      MYSQL_PASSWORD: piyush
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#    ports:
+#      - "3307:3306"
+#    networks:
+#      - mysql
+#    restart: unless-stopped
+#
+#  phpmyadmin:
+#    container_name: phpmyadmin_container
+#    image: phpmyadmin/phpmyadmin
+#    environment:
+#      PMA_HOST: mysql
+#      PMA_PORT: 3306
+#      MYSQL_ROOT_PASSWORD: piyush
+#    ports:
+#      - "8484:80"
+#    networks:
+#      - mysql
+#    restart: unless-stopped
+#
+#networks:
+#  mysql:
+#    driver: bridge
+#
+#volumes:
+#  mysql_data:
