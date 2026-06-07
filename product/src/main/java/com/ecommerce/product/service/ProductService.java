@@ -75,4 +75,9 @@ public class ProductService {
         response.setStockQuantity(savedProduct.getStockQuantity());
         return response;
     }
+
+    public Optional<ProductResponse> getProductById(Long id) {
+        return productRepository.findByIdAndActiveTrue(id)
+                .map(this::mapToProductResponse);
+    }
 }
