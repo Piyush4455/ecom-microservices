@@ -9,6 +9,8 @@ spring:
     gateway:
       server:
         webflux:
+#          default-filters:
+#            - CircuitBreaker=eComBreaker
           routes:
             - id: user-service
               uri: lb://USER-SERVICE
@@ -19,6 +21,11 @@ spring:
               uri: lb://PRODUCT-SERVICE
               predicates:
                 - Path=/api/products/**
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: eComBreaker
+                    fallbackUri: forward:/fallback/products
 
             - id: order-service
               uri: lb://ORDER-SERVICE
@@ -56,6 +63,26 @@ management:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
   tracing:
     sampling:
       probability: 1.0
+
+# Circuit Breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      eComBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10 # Last 10 calls are required to decide circuit is Open/closed.
+        minimumNumberOfCalls: 5 # Minimum number of calls required before the circuit breaker starts to evaluating failure rates.
+        permittedNumberOfCallsInHalfOpenState: 3 # Half Open state only 3 request are allowed, before deciding state is Open/Closed.
+        waitDurationInOpenState: 10s # Circuit remains open for 10s for rejecting calls before it is in Open State.
+        failureRateThreshold: 50 # This is percentage here, if 50% or more calls fail teh circuit breaker opens and begin rejecting the calls
+        automaticTransitionFromOpenToHalfOpenEnabled: true # After 10sec, it will automatically will transition from Open to Half Open State.
+        slidingWindowType: count_based
