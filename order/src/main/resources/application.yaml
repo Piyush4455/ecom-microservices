@@ -75,5 +75,11 @@ resilience4j:
         failureRateThreshold: 50 # This is percentage here, if 50% or more calls fail teh circuit breaker opens and begin rejecting the calls
         automaticTransitionFromOpenToHalfOpenEnabled: true # After 10sec, it will automatically will transition from Open to Half Open State.
         slidingWindowType: count_based
+  retry:
+    instances:
+      retryBreaker:
+        maxAttempts: 5
+        waitDuration: 500ms
+
 
 
