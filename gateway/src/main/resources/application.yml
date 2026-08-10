@@ -30,6 +30,13 @@ spring:
                   args:
                     name: eComBreaker
                     fallbackUri: forward:/fallback/products
+                - name: RequestRateLimiter
+                  args:
+                    name: redisRateLimiter
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
+                    redis-rate-limiter.requestedTokens: 1
+                    key-resolver: "#{@hostNameKeyResolver}"
 
             - id: order-service
               uri: lb://ORDER-SERVICE
