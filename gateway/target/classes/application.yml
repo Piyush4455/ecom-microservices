@@ -22,6 +22,10 @@ spring:
               predicates:
                 - Path=/api/products/**
               filters:
+                - name: Retry
+                  args:
+                    retries: 10
+                    method: GET,POST
                 - name: CircuitBreaker
                   args:
                     name: eComBreaker
