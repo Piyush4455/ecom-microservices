@@ -5,6 +5,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/order
     username: piyush
     password: piyush
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   jpa:
     database: POSTGRESQL
     show-sql: true
@@ -20,6 +25,14 @@ spring:
 #    show-sql: true
 #    hibernate:
 #      ddl-auto: create
+
+rabbitmq:
+  exchange:
+    name: order.exchange
+  queue:
+    name: order.queue
+  routing:
+    key: order.tracking
 
 server:
   port: 8083
